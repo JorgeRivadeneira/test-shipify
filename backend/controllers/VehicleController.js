@@ -3,14 +3,22 @@ import mySQLConnection from "../databases/connection.js";
 
 //Show all records
 export const getAllVehicles = async (req, res)=> {
-    const sql = " SELECT v.id, v.driver_id, d.first_name + ' ' + d.last_name AS driver_name,  " + 
-    " c.id company_id, c.name company_name,  " + 
-    " v.plate, v.model, v.type, v.capacity, v.creation_date " + 
-    " FROM company c, driver d, vehicle v " + 
-    " WHERE c.id = d.company_id " + 
-    " AND d.id = v.driver_id  ORDER by v.driver_id";
+    const id = req.params.id;
+    let where = '';
+    let sql = '';
+    if (id > 0){
+        where = ' AND v.id =  ' + id;
+    }
+        sql = " SELECT v.id, v.driver_id, d.first_name + ' ' + d.last_name AS driver_name,  " + 
+        " c.id company_id, c.name company_name,  " + 
+        " v.plate, v.model, v.type, v.capacity, v.creation_date " + 
+        " FROM company c, driver d, vehicle v " + 
+        " WHERE c.id = d.company_id " + where +
+        " AND d.id = v.driver_id  ORDER by v.driver_id";
 
-    const vehicles = await mySQLConnection.query( sql, (error, results) => {
+    console.log(sql);
+
+    const vehicles = await mySQLConnection.query( sql,  (error, results) => {
         if(error){
             res.json({message: 'Error: ' + error})
         }else{
@@ -20,26 +28,21 @@ export const getAllVehicles = async (req, res)=> {
 }
 
 // //Show only one record
-export const getVehicle = async (req, res)=> {
+// export const getVehicle = async (req, res)=> {
 
-    const sql = " SELECT v.id, v.driver_id, d.first_name + ' ' + d.last_name AS driver_name,  " + 
-    " c.id company_id, c.name company_name,  " + 
-    " v.plate, v.model, v.type, v.capacity, v.creation_date " + 
-    " FROM company c, driver d, vehicle v " + 
-    " WHERE c.id = d.company_id " + 
-    " AND v.id = ? " +
-    " AND d.id = v.driver_id ORDER by v.driver_id ";
 
-    const id = req.params.id;
 
-    const vehicles = await mySQLConnection.query( sql, [id], (error, results) => {
-        if(error){
-            res.json({message: 'Error: ' + error})
-        }else{
-            res.json(results);
-        }
-    });
-}
+   
+
+//     const vehicles = await mySQLConnection.query( sql, [id], (error, results) => {
+//         console.log(results);
+//         if(error){
+//             res.json({message: 'Error: ' + error})
+//         }else{
+//             res.json(results);
+//         }
+//     });
+// }
 
 export const getVehicleByDriverId = async (req, res)=> {
 
@@ -53,7 +56,8 @@ export const getVehicleByDriverId = async (req, res)=> {
     " AND v.driver_id = ? " +
     " AND d.id = v.driver_id ORDER by v.driver_id ";
 
-    const vehicles = await mySQLConnection.query( sql, [driver_id], (error, results) => {
+    const vehicles = await mySQLConnection.query( sql, [driver_id], (error, results) => {        
+        console.log(results);
         if(error){
             res.json({message: 'Error: ' + error})
         }else{

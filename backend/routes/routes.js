@@ -1,11 +1,11 @@
 import express from 'express'
-import { getAllVehicles, getVehicle, createVehicle, updateVehicle, deleteVehicle, getVehicleByDriverId } from '../controllers/VehicleController.js';
+import { getAllVehicles, createVehicle, updateVehicle, deleteVehicle, getVehicleByDriverId } from '../controllers/VehicleController.js';
 
 const router = express.Router();
 
 router.get('/', getAllVehicles);
 
-router.get('/:id', getVehicle);
+router.get('/:id', getAllVehicles);
 
 router.get('/driver/:id', getVehicleByDriverId);
 

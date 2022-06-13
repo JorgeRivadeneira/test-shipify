@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { CreateVehicle } from '../components/CreateVehicle'
 import { EditVehicle } from '../components/EditVehicle'
 import { ShowVehicle } from '../components/ShowVehicle'
+import {ModalCreate} from '../components/ModalCreate';
 
 const AppRouter = () => {
   return (
@@ -18,8 +19,9 @@ const AppRouter = () => {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<ShowVehicle/>} />            
-          <Route path='/create' element={<CreateVehicle/>} />  
-          <Route path='/edit/:id' element={<EditVehicle />} />
+          <Route path='/create' element={<ModalCreate />} />  
+          <Route path='/modal' element={<ModalCreate />} />  
+          <Route path='/edit/:id' element={<ModalCreate />} />
         </Routes>
       </BrowserRouter>
       
